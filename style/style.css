@@ -1,0 +1,183 @@
+/*Modification des styles natif*/
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x:hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit; 
+}
+
+a:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+/*Style principaux du site*/
+.siteContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Helvetica;
+    height: 95vh;
+}
+
+.siteHeader {
+    display: flex;
+    width: 100vw;
+    background-color: grey;
+    top:0;
+    padding: 5px;
+}
+
+.siteFooter {
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    width: 100vw; 
+    background-color: gray;
+    color: white;
+    text-align: center;
+    padding: 2px 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); 
+    font-family: Arial, sans-serif; 
+    font-size: 2vh;
+}
+
+/*Style du menu de navigation*/
+.mainTitle {
+    flex:1;
+    font-size:4vh;
+    margin-left: 4%;
+    color: white;
+}
+
+.navigationMenu {
+    flex:6;
+    display: flex;
+    margin: 0px 20px;
+    justify-content: left;
+    align-items: center;
+}
+
+.buttonMenu {
+    margin: 5px 8px; 
+    padding: 5px 10px; 
+    border: 2px solid #333; 
+    border-radius: 8px; 
+    background-color: #f0f0f0; 
+    color: #333;
+    font-family: 'Helvetica', sans-serif; 
+    font-size: 3vh; 
+    text-align: center; 
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+}
+
+.buttonMenu:hover {
+    background-color: #ddd; 
+    color: black;
+    transform: scale(1.05);
+}
+
+.buttonMenu:active {
+    transform: scale(0.95);
+    background-color: #ccc;
+}
+
+/*Autre styles*/
+
+/* Style global pour le tableau */
+.mainTable {
+    display: flex;
+    justify-content: center;
+    width: 80vw;
+}
+
+table {
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0; 
+    font-size: 18px; 
+    text-align: left; 
+    align-items: center;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px; 
+}
+
+th {
+    background-color: grey;
+    color: white;
+    text-transform: uppercase; 
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* index.php */ 
+form {
+    display: flex;
+    flex-wrap: wrap; /* Pour s'assurer que les éléments ne débordent pas */
+    align-items: center; /* Aligner verticalement les éléments */
+    justify-content: space-between; /* Espacement entre les groupes d'éléments */
+    gap: 10px; /* Espacement horizontal entre les éléments */
+    padding: 10px;
+    background-color: #f9f9f9; /* Couleur de fond pour séparer visuellement le formulaire */
+    border: 1px solid #ccc; /* Bordure discrète */
+    border-radius: 8px; /* Coins arrondis */
+    margin-bottom: 20px; /* Espacement en dessous du formulaire */
+}
+
+form label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px; /* Taille fixe pour une meilleure uniformité */
+}
+
+form button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; /* Couleur de bouton primaire */
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3; /* Couleur plus foncée au survol */
+}
+
+form button:active {
+    background-color: #004494; /* Couleur plus foncée lors du clic */
+}
+
+form button[name="date_filter"] {
+    margin-left: 5px;
+}
+
