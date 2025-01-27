@@ -8,34 +8,79 @@ class database{
 
     private $connected;
 
-    //Constructeur de l'object Player
+    //Constructeur de l'object database
     public function __construct($localhost, $password, $user, $db){
         $this->localhost    = $localhost;
         $this->password     = $password;
         $this->user         = $user;
         $this->db           = $db;
     }
+
+    /**
+     * @function connect()
+     * Fonction qui ouvre la connexion
+     * @return : $connected 
+     */
     public function connect(){
         $this->connected = mysqli_connect($this->localhost, $this->user, $this->password, $this->db);
         return $this->connected;
     }
+
+    /**
+     * @function disconnect()
+     * Fonction qui ferme la connexion
+     * @return : error
+     */
     public function disconnect(){
         $this->connected = mysqli_close($this->connected);
         return $this->connected;
     }
+
+    /**
+     * @function select(string, string, string, string)
+     * Fonction qui sélectionne en base
+     * @parameter $table string : nom de la table
+     * @parameter $parameters string : paramètres pour 
+     * @parameter $where string : filtre (where etc)
+     * @parameter $other string : paramètres complémentaires au select
+     * @return : error
+     */
     public function select($table, $parameters, $where, $other){
         $where = empty($where) ?"":"WHERE ". $where;
         $sql = "SELECT $parameters FROM $table $where $other";
         return mysqli_query($this->connected, $sql);
     }
+
+    /**
+     * @function isConnected()
+     * Fonction qui si la connection est ouverte ou non
+     * @return : error
+     */
     public function isConnected(){
         return $this->connected;
     }
 
+    /**
+     * @function error()
+     * Fonction qui retourne l'erreur
+     * @return : error
+     */
     public function error(){
         return mysqli_error($this->connected);
     }
 
+
+    /**
+     * @function insertInto(string, string, int, string, string)
+     * Fonction d'insertion de la table / ligne
+     * @parameter $table string : nom de la table à modifier
+     * @parameter $film string : nom du film
+     * @parameter $annee int : année à modifier
+     * @parameter $style string : genre du film à modifier
+     * @parameter $duree string : durée du film à modifier
+     * @parameter $id int : id de la ligne à supprimer
+     * @return $return_value bool : retour true ou false si ça a fonctionné
+     */
     public function insertInto($table, $film, $annee, $style, $duree){
         $sql = "INSERT INTO `$table` (`DVD_Nom`, `DVD_Annee`, `DVD_Genre`, `DVD_Duree`) VALUES (?, ?, ?, ?)";
         
@@ -51,6 +96,18 @@ class database{
         
         return $return_value;
     }
+
+    /**
+     * @function update(string, string, int, string, string, int)
+     * Fonction d'update de la table / ligne
+     * @parameter $table string : nom de la table à modifier
+     * @parameter $film string : nom du film
+     * @parameter $annee int : année à modifier
+     * @parameter $style string : genre du film à modifier
+     * @parameter $duree string : durée du film à modifier
+     * @parameter $id int : id de la ligne à supprimer
+     * @return $return_value bool : retour true ou false si ça a fonctionné
+     */
 
     public function update($table, $film, $annee, $style, $duree, $id) {
         // Construire les parties de la requête dynamiquement
@@ -79,35 +136,43 @@ class database{
             $types .= 's';
         }
     
-        // Ajouter l'ID pour la condition WHERE
+        //Ajout des id pour la condition WHERE
         $params[] = $id;
         $types .= 'i';
     
-        // Vérifier qu'il y a des colonnes à mettre à jour
+        //Vérifier si des paramètres sont présents dans le tableau
         if (empty($fields)) {
             return false; // Rien à mettre à jour
         }
     
-        // Construire la requête SQL
-        $sql = "UPDATE `$table` SET " . implode(', ', $fields) . " WHERE `id` = ?";
+        //Construction de la requête SQL
+        $sql = "UPDATE `$table` SET " . implode(', ', $fields) . " WHERE `id_dvd` = ?";
     
-        // Préparer la requête
+        //Préparation de la requête SQL
         $stmtUpdate = mysqli_prepare($this->connected, $sql);
         if (!$stmtUpdate) {
             die("Erreur de préparation de la requête : " . mysqli_error($this->connected));
         }
     
-        // Lier les paramètres dynamiquement
+        //Liaison des paramètres avec la requête
         mysqli_stmt_bind_param($stmtUpdate, $types, ...$params);
     
-        // Exécuter la requête
+        //Execution de la requête
         $return_value = mysqli_stmt_execute($stmtUpdate);
     
-        // Fermer la déclaration
+        //Fermeture du statement
         mysqli_stmt_close($stmtUpdate);
     
         return $return_value;
     }
+
+    /**
+     * @function deleteRecord(string, int)
+     * Fonction de suppression de la table / ligne
+     * @parameter $table string : nom de la table à modifier
+     * @parameter $id int : id de la ligne à supprimer
+     * @return $return_value bool : retour true ou false si ça a fonctionné
+     */
 
     public function deleteRecord($table, $id) {
         // Vérifier si l'ID est valide
@@ -116,7 +181,7 @@ class database{
         }
     
         // Préparer la requête SQL pour la suppression
-        $sql = "DELETE FROM `$table` WHERE `id` = ?";
+        $sql = "DELETE FROM `$table` WHERE `id_dvd` = ?";
     
         // Préparer la déclaration
         $stmtDelete = mysqli_prepare($this->connected, $sql);
@@ -134,7 +199,7 @@ class database{
         // Fermer la déclaration
         mysqli_stmt_close($stmtDelete);
     
-        return $return_value; // Retourne true si la suppression a réussi, false sinon
+        return $return_value;
     }
     
     

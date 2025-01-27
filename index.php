@@ -19,10 +19,9 @@
       if($db->isConnected() === false){ 
         die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
       } 
-    
       //$Table = "SELECT * FROM dvd_data";// essai de connexion à la table 
       
-      if($resultat = $db->select("dvd_data", '*', '', '')) //requête sur la base de donnée et retour des caractéristiques 
+      if($resultat = $db->select('dvd_data', '*', 'DVD_Duree BETWEEN 90 and 100', ''))
       {  
         if(mysqli_num_rows($resultat) > 0)//test le nombre d'enregistrement dans la base 
         { 
