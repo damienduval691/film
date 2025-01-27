@@ -21,7 +21,7 @@
       } 
       //$Table = "SELECT * FROM dvd_data";// essai de connexion à la table 
       
-      if($resultat = $db->select('dvd_data', '*', '', ''))
+      if($resultat = $db->select('dvd_data', '*', 'DVD_Annee >= 2015', ''))
       {  
         if(mysqli_num_rows($resultat) > 0)//test le nombre d'enregistrement dans la base 
         { 

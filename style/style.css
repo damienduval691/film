@@ -96,6 +96,7 @@ a:hover {
     display: flex;
     justify-content: center;
     width: 90vw;
+    
 }
 
 table {
@@ -105,6 +106,7 @@ table {
     font-size: 18px; 
     text-align: left; 
     align-items: center;
+    border-radius: 15px;
 }
 
 th, td {
@@ -138,6 +140,7 @@ form {
     border: 1px solid #ccc; /* Bordure discrète */
     border-radius: 8px; /* Coins arrondis */
     margin-bottom: 20px; /* Espacement sous le formulaire */
+    margin-top: 1%;
 }
 
 form label {
