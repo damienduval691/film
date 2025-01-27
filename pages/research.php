@@ -1,6 +1,6 @@
-<form method="GET" action="index.php">
+<form method="POST" action="index.php">
     <label for="id">ID :</label>
-    <input type="text" id="id" name="id" placeholder="Identifiant">
+    <input type="id" id="id" name="id" placeholder="Identifiant">
 
     <label for="name">Nom :</label>
     <input type="text" id="name" name="name" placeholder="Nom du film">
@@ -8,11 +8,12 @@
     <label for="genre">Genre :</label>
     <select id="genre" name="genre">
         <option value="">Tous</option>
-        <option value="Science Fiction">Science Fiction</option>
-        <option value="Western">Western</option>
-        <option value="Policier">Policier</option>
-        <option value="Thriller">Thriller</option>
-        <option value="Romantique">Romantique</option>
+        
+        <?php 
+        $genres = $db->select("dvd_data", "DISTINCT DVD_Genre", '', '');
+            foreach ($genres as $genre): ?>
+            <option value="<?= htmlspecialchars($genre['DVD_Genre']); ?>"><?= htmlspecialchars($genre['DVD_Genre']); ?></option>
+        <?php endforeach; ?>
     </select>
 
     <label for="year">Année :</label>

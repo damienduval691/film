@@ -21,7 +21,7 @@
       } 
       //$Table = "SELECT * FROM dvd_data";// essai de connexion à la table 
       
-      if($resultat = $db->select('dvd_data', '*', 'DVD_Duree BETWEEN 90 and 100', ''))
+      if($resultat = $db->select('dvd_data', '*', '', ''))
       {  
         if(mysqli_num_rows($resultat) > 0)//test le nombre d'enregistrement dans la base 
         { 
@@ -61,7 +61,7 @@
       ?> 
     </div>
     <?php 
-        include 'model/footer.php'; 
+      include 'model/footer.php'; 
     ?>
   </div>
 </body> 

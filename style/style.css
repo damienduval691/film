@@ -1,7 +1,8 @@
-/*Modification des styles natif*/
+/* Modification des styles natifs */
 body, html {
     margin: 0;
     padding: 0;
+    overflow-x: hidden; /* Empêche les débordements horizontaux */
 }
 
 a {
@@ -11,25 +12,26 @@ a {
 
 a:hover {
     text-decoration: underline;
-    color: blue;
+    color: #7A90A4;
 }
 
-/*Style principaux du site*/
+/* Styles principaux du site */
 .siteContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-family: Helvetica;
-    height: 95vh;
+    justify-content: flex-start;
+    font-family: Helvetica, Arial, sans-serif;
+    min-height: 100vh; /* Minimum pour occuper toute la fenêtre */
+    height: auto; /* Autoriser l'extension verticale */
+    /*overflow-y: auto; /* Permet le défilement si nécessaire */
 }
 
 .siteHeader {
     display: flex;
     width: 100vw;
-    background-color: grey;
-    top:0;
-    padding: 5px;
+    background-color: #00334A;
+    top: 0;
 }
 
 .siteFooter {
@@ -37,7 +39,7 @@ a:hover {
     bottom: 0; 
     left: 0; 
     width: 100vw; 
-    background-color: gray;
+    background-color: #00334A;
     color: white;
     text-align: center;
     padding: 2px 0;
@@ -47,16 +49,16 @@ a:hover {
     font-size: 2vh;
 }
 
-/*Style du menu de navigation*/
+/* Style du menu de navigation */
 .mainTitle {
-    flex:1;
-    font-size:4vh;
+    flex: 1;
+    font-size: 4vh;
     margin-left: 4%;
     color: white;
 }
 
 .navigationMenu {
-    flex:6;
+    flex: 6;
     display: flex;
     margin: 0px 20px;
     justify-content: left;
@@ -66,10 +68,10 @@ a:hover {
 .buttonMenu {
     margin: 5px 8px; 
     padding: 5px 10px; 
-    border: 2px solid #333; 
+    border: 2px solid #00334A; 
     border-radius: 8px; 
     background-color: #f0f0f0; 
-    color: #333;
+    color: #00334A;
     font-family: 'Helvetica', sans-serif; 
     font-size: 3vh; 
     text-align: center; 
@@ -79,7 +81,7 @@ a:hover {
 }
 
 .buttonMenu:hover {
-    background-color: #ddd; 
+    background-color: #82CFD8; 
     color: black;
     transform: scale(1.05);
 }
@@ -89,13 +91,11 @@ a:hover {
     background-color: #ccc;
 }
 
-/*Autre styles*/
-
-/* Style global pour le tableau */
+/* Styles pour les tableaux */
 .mainTable {
     display: flex;
     justify-content: center;
-    width: 80vw;
+    width: 90vw;
 }
 
 table {
@@ -113,32 +113,31 @@ th, td {
 }
 
 th {
-    background-color: grey;
+    background-color: #00334A;
     color: white;
     text-transform: uppercase; 
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #B8CBD0;
 }
 
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #9CD2D5;
 }
 
-
-/* index.php */ 
+/* Styles pour le formulaire */
 form {
     display: flex;
-    flex-wrap: wrap; /* Pour s'assurer que les éléments ne débordent pas */
-    align-items: center; /* Aligner verticalement les éléments */
-    justify-content: space-between; /* Espacement entre les groupes d'éléments */
-    gap: 10px; /* Espacement horizontal entre les éléments */
+    flex-wrap: wrap; /* Gère les débordements horizontaux */
+    align-items: center; /* Aligne les éléments verticalement */
+    justify-content: flex-start; /* Aligne les éléments à gauche */
+    gap: 10px; /* Espacement entre les éléments */
     padding: 10px;
-    background-color: #f9f9f9; /* Couleur de fond pour séparer visuellement le formulaire */
+    background-color: #f9f9f9; /* Couleur de fond pour distinguer le formulaire */
     border: 1px solid #ccc; /* Bordure discrète */
     border-radius: 8px; /* Coins arrondis */
-    margin-bottom: 20px; /* Espacement en dessous du formulaire */
+    margin-bottom: 20px; /* Espacement sous le formulaire */
 }
 
 form label {
@@ -150,33 +149,46 @@ form label {
 form input[type="text"],
 form input[type="number"],
 form select {
+    flex: 1 1 auto; /* Les champs s'adaptent à l'espace disponible */
+    min-width: 120px; /* Largeur minimale */
+    max-width: 200px; /* Largeur maximale */
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 150px; /* Taille fixe pour une meilleure uniformité */
+}
+
+form input[type="id"] {
+    flex: 1 1 auto; /* Les champs s'adaptent à l'espace disponible */
+    min-width: 60px; /* Largeur minimale */
+    max-width: 80px; /* Largeur maximale */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 form button {
+    flex: 0 0 auto; /* Évite que les boutons se redimensionnent automatiquement */
+    min-width: 80px; /* Largeur minimale */
     padding: 8px 12px;
     font-size: 14px;
     border: none;
     border-radius: 4px;
-    background-color: #007bff; /* Couleur de bouton primaire */
+    background-color: #007FA9; /* Couleur principale */
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 form button:hover {
-    background-color: #0056b3; /* Couleur plus foncée au survol */
+    background-color: #82CFD8; /* Couleur plus foncée au survol */
 }
 
 form button:active {
-    background-color: #004494; /* Couleur plus foncée lors du clic */
+    background-color: #82CFD8; /* Couleur encore plus foncée lors du clic */
 }
 
 form button[name="date_filter"] {
     margin-left: 5px;
 }
-
