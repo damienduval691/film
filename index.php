@@ -15,49 +15,87 @@
     ?>
     <div class="mainTable">
       <?php 
-      // Connexion à la base de données 
-      if($db->isConnected() === false){ 
-        die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
-      } 
-      //$Table = "SELECT * FROM dvd_data";// essai de connexion à la table 
-      
-      if($resultat = $db->select('dvd_data', '*', 'DVD_Annee >= 2015', ''))
-      {  
-        if(mysqli_num_rows($resultat) > 0)//test le nombre d'enregistrement dans la base 
-        { 
-          echo "<table>"; 
-          echo "<tr>"; 
-          echo "<th>Identificateur</th>"; 
-          echo "<th>Nom du Film</th>"; 
-          echo "<th>Année</th>"; 
-          echo "<th>genre</th>"; 
-          echo "<th>durée</th>"; 
-          echo "</tr>"; 
-          while($row = mysqli_fetch_array($resultat))//récupération d’une ligne de résultat 
-          { 
-            echo "<tr>"; 
-            echo "<td>" . $row['ID_DVD'] . "</td>"; 
-            echo "<td>" . $row['DVD_Nom'] . "</td>"; 
-            echo "<td>" . $row['DVD_Annee'] . "</td>"; 
-            echo "<td>" . $row['DVD_Genre'] . "</td>"; 
-            echo "<td>" . $row['DVD_Duree'] . "</td>"; 
-            echo "</tr>"; 
-          } 
-          echo "</table>"; 
-          // efface le résultat de la recherche précédente 
-          mysqli_free_result($resultat); 
-        } 
+        // Connexion à la base de données 
+        if($db->isConnected() === false){ 
+          die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
+        }
+        
+        //Limitation du nombre d'entrées par page
+        $entryLimit = 50;
+
+        //Récupérer la page courante depuis POST, par défaut page 1
+        $page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+
+        //Calcul de l'offset
+        $indexOffset = ($page-1) * $entryLimit;
+
+        //Récupération du nombre d'entrée
+        if($resultat = $db->select('dvd_data', 'COUNT(*) as total', '', ''))
+        {
+          $totalRow = mysqli_fetch_array($resultat);
+          $totalEntries = $totalRow['total'];
+          mysqli_free_result($resultat);
+        }
+        else {
+          die("Erreur lors de la récupération dud total des entrées.");
+        }
+
+        //Calcul du nombre de pages
+        $totalPages = ceil($totalEntries/$entryLimit);
+
+        //Récupération des 50 entrées en fonction de la limite et de l'offset
+        if($resultat = $db->select('dvd_data', '*', '', "LIMIT $entryLimit OFFSET $indexOffset"))
+        {
+          if (mysqli_num_rows($resultat) > 0) {
+            echo "<table>";
+            echo "<tr>";
+            echo "<th>Identificateur</th>";
+            echo "<th>Nom du Film</th>";
+            echo "<th>Année</th>";
+            echo "<th>Genre</th>";
+            echo "<th>Durée</th>";
+            echo "</tr>";
+            while ($row = mysqli_fetch_array($resultat)) 
+            {
+              echo "<tr>";
+              echo "<td>" . $row['ID_DVD'] . "</td>";
+              echo "<td>" . $row['DVD_Nom'] . "</td>";
+              echo "<td>" . $row['DVD_Annee'] . "</td>";
+              echo "<td>" . $row['DVD_Genre'] . "</td>";
+              echo "<td>" . $row['DVD_Duree'] . "</td>";
+              echo "</tr>";
+            }
+            echo "</table>";
+  
+            // Afficher l'indication de la pagination
+            echo "<div class='manageTable'>";
+            $start = ($page - 1) * $entryLimit + 1;
+            $end = min($start + $entryLimit - 1, $totalEntries);
+            echo "<p>Affichage : $start à $end sur $totalEntries entrées</p>";
+  
+            // Afficher les boutons de pagination avec un formulaire
+            echo "<form method='POST' action=''>";
+            if ($page > 1) {
+              echo "<button type='submit' name='page' value='" . ($page - 1) . "'>&laquo; Précédent</button>";
+            }
+            if ($page < $totalPages) {
+              echo "<button type='submit' name='page' value='" . ($page + 1) . "'>Suivant &raquo;</button>";
+            }
+            echo "</form>";
+            echo "</div>";
+  
+            mysqli_free_result($resultat);
+          } else {
+            echo "Pas d'enregistrement dans la base.";
+          }
+        }
         else 
-        { 
-          echo "Pas d’enregistrement dans la base."; 
-        }    
-      }  
-      else 
-      { 
-        echo "ERREUR: on ne peut pas exécuter $Table. " . $db->error(); 
-      } 
-      // Fermeture base 
-      $db->disconnect();
+        {
+          die("Erreur lors de l'exécution de la requête : " . mysqli_error($db->connection));
+        }
+
+        // Fermeture base 
+        $db->disconnect();
       ?> 
     </div>
     <?php 

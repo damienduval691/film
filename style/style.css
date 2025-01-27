@@ -22,9 +22,9 @@ a:hover {
     align-items: center;
     justify-content: flex-start;
     font-family: Helvetica, Arial, sans-serif;
-    min-height: 100vh; /* Minimum pour occuper toute la fenêtre */
-    height: auto; /* Autoriser l'extension verticale */
-    /*overflow-y: auto; /* Permet le défilement si nécessaire */
+    min-height: 100vh; 
+    height: auto; 
+    padding-bottom: 2%;
 }
 
 .siteHeader {
@@ -52,9 +52,10 @@ a:hover {
 /* Style du menu de navigation */
 .mainTitle {
     flex: 1;
-    font-size: 4vh;
+    font-size: 3.5vh;
     margin-left: 4%;
     color: white;
+    white-space: nowrap;
 }
 
 .navigationMenu {
@@ -95,12 +96,18 @@ a:hover {
 .mainTable {
     display: flex;
     justify-content: center;
-    width: 90vw;
-    
+    max-width: 90vw;
+    flex-direction: column;
+}
+
+.manageTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 table {
-    max-width: 100%;
     border-collapse: collapse;
     margin: 20px 0; 
     font-size: 18px; 
