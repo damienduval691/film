@@ -13,13 +13,29 @@
       include 'init/init.php';
       include 'pages/research.php';
     ?>
+    <?php
+      // Connexion à la base de données 
+      if($db->isConnected() === false){ 
+        die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
+      }
+
+      // Gérer la suppression d'une ligne si un ID est envoyé
+      if (isset($_POST['delete_id'])) {
+        $deleteId = (int)$_POST['delete_id'];
+        if ($db->deleteRecord('dvd_data', $deleteId)) {
+          echo "<p>Ligne avec ID $deleteId supprimée avec succès.</p>";
+        } else {
+          echo "<p>Erreur lors de la suppression de la ligne : " . mysqli_error($db->connection) . "</p>";
+        }
+      }
+    ?>
     <div class="mainTable">
       <?php 
         // Connexion à la base de données 
         if($db->isConnected() === false){ 
           die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
         }
-        
+
         //Limitation du nombre d'entrées par page
         $entryLimit = 50;
 
@@ -54,6 +70,7 @@
             echo "<th>Année</th>";
             echo "<th>Genre</th>";
             echo "<th>Durée</th>";
+            echo "<th>Supprimer une ligne</th>";
             echo "</tr>";
             while ($row = mysqli_fetch_array($resultat)) 
             {
@@ -63,6 +80,12 @@
               echo "<td>" . $row['DVD_Annee'] . "</td>";
               echo "<td>" . $row['DVD_Genre'] . "</td>";
               echo "<td>" . $row['DVD_Duree'] . "</td>";
+              echo "<td>";
+              echo "<form method='POST' action=''>";
+              echo "<input type='hidden' name='delete_id' value='" . $row['ID_DVD'] . "' />";
+              echo "<button class='buttonDelete' type='submit'><img src='img/bouton-supprimer.png' class='buttonDeleteImage'>Supprimer</button>";
+              echo "</form>";
+              echo "</td>";
               echo "</tr>";
             }
             echo "</table>";

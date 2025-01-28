@@ -136,7 +136,7 @@ tr:hover {
 }
 
 /* Styles pour le formulaire */
-form {
+.formFilm {
     display: flex;
     flex-wrap: wrap; /* Gère les débordements horizontaux */
     align-items: center; /* Aligne les éléments verticalement */
@@ -178,9 +178,9 @@ form input[type="id"] {
     border-radius: 4px;
 }
 
-form button {
-    flex: 0 0 auto; /* Évite que les boutons se redimensionnent automatiquement */
-    min-width: 80px; /* Largeur minimale */
+.buttonForm  {
+    flex: 0 0 auto; 
+    min-width: 80px; 
     padding: 8px 12px;
     font-size: 14px;
     border: none;
@@ -191,14 +191,44 @@ form button {
     transition: background-color 0.3s ease;
 }
 
-form button:hover {
+.buttonForm:hover {
     background-color: #82CFD8; /* Couleur plus foncée au survol */
 }
 
-form button:active {
+.buttonForm:active {
     background-color: #82CFD8; /* Couleur encore plus foncée lors du clic */
 }
 
 form button[name="date_filter"] {
     margin-left: 5px;
+}
+
+/*Style pour le boutton supprimer une ligne*/
+.buttonDelete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #bd050e;
+    border-radius: 4px;
+    border-color: #aa050d;
+    color: white;
+    font-size: 14px;
+    min-width: 80px; 
+    padding: 4px 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonDelete:hover {
+    background-color: #aa050d; /* Couleur plus foncée au survol */
+}
+
+.buttonDelete:active {
+    background-color: #aa050d; /* Couleur encore plus foncée lors du clic */
+}
+
+.buttonDeleteImage {
+    width: 20px; 
+    height: 20px;
+    padding: 0px 5px;
 }

@@ -1,4 +1,4 @@
-<form method="POST" action="index.php">
+<form method="POST" action="index.php" class="formFilm">
     <label for="id">ID :</label>
     <input type="id" id="id" name="id" placeholder="Identifiant">
 
@@ -19,11 +19,11 @@
     <label for="year">Année :</label>
     <input type="number" id="year" name="year" placeholder="Entrez une année" min="1900" max="2100">
 
-    <button type="submit" name="date_filter" value="before">Avant</button>
-    <button type="submit" name="date_filter" value="after">Après</button>
+    <button class="buttonForm" type="submit" name="date_filter" value="before">Avant</button>
+    <button class="buttonForm" type="submit" name="date_filter" value="after">Après</button>
 
     <label for="duration">Durée (en minutes) :</label>
     <input type="text" id="duration" name="duration" placeholder="Durée en minutes">
 
-    <button type="submit">Filtrer</button>
+    <button class="buttonForm" type="submit">Filtrer</button>
 </form>
