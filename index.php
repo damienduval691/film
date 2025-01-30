@@ -203,6 +203,12 @@
 
         }
 
+        /**
+         * function buildQueryFromParams(string)
+         * Fonction qui permet de créer la clause where
+         * @param string $param : $_GET ou $_POST
+         * @return string $query : clause where
+         */
         function buildQueryFromParams($params) {
           // Récupération des valeurs de recherche depuis le tableau $params
           $id = isset($params['id']) ? htmlspecialchars($params['id']) : '';
@@ -215,10 +221,10 @@
           $durationEnd = isset($params['durationEnd']) ? (int)$params['durationEnd'] : null;
           $durationFilter = isset($params['duree_filter']) ? $params['duree_filter'] : '';
       
-          // Initialisation de la requête
+          //Initilisation de la clause
           $query = "1 ";
       
-          // Ajouter des conditions en fonction des entrées
+          //Ajout des paramètres dans la clause
           if (!empty($id)) {
               $query .= " AND ID_DVD = $id";
           }

@@ -51,7 +51,10 @@
      Filtrer
 </button>
     <script>
+        //Script qui permet de passer de grisé à actif pour les champs année & durée
         document.addEventListener("DOMContentLoaded", function () {
+
+            //Récupération des données via l'ID des champs
             const radioBetween = document.getElementById("filter_between");
             const radioBefore = document.getElementById("filter_before");
             const radioAfter = document.getElementById("filter_after");
@@ -66,6 +69,7 @@
             const durationStart = document.getElementById("durationStart");
             const durationEnd = document.getElementById("durationEnd");
 
+            //On met à jour les champs
             function updateFields() {
                 switch (true) {
                     case radioBetween.checked:
@@ -102,7 +106,7 @@
             radioBetween.addEventListener("change", updateFields);
             radioBefore.addEventListener("change", updateFields);
             radioAfter.addEventListener("change", updateFields);
-            updateFields();
+
             radioBetween_duree.addEventListener("change", updateFields);
             radioMinus.addEventListener("change", updateFields);
             radioPlus.addEventListener("change", updateFields);
