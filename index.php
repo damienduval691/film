@@ -13,49 +13,7 @@
       include 'init/init.php';
     ?>
     <div class="siteContentContainer">
-<<<<<<< HEAD
-    <?php
-      include 'pages/research.php';
-    ?>
-    <?php
-      // Connexion à la base de données 
-      if($db->isConnected() === false){ 
-        die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
-      }
 
-      if (!empty($error = isset($_POST['error_sql']))) {
-        if ($db->deleteRecord('dvd_data', $deleteId)) {
-          echo "<p>$error.</p>";
-        }
-      }
-      
-
-      // Gérer la suppression d'une ligne si un ID est envoyé
-      if (isset($_POST['delete_id'])) {
-        $deleteId = (int)$_POST['delete_id'];
-        if ($db->deleteRecord('dvd_data', $deleteId)) {
-          echo "<p>Ligne avec ID $deleteId supprimée avec succès.</p>";
-        } else {
-          echo "<p>Erreur lors de la suppression de la ligne : " . $db->error() . "</p>";
-        }
-      }
-
-      //Mise a jour de la ligne dans la base de données
-      if (isset($_POST['update_entry'])) {
-        $updateId = (int)$_POST['update_id'];
-        $updateNom = $db->real_escape_string($_POST['update_nom']);
-        $updateAnnee = $db->real_escape_string($_POST['update_annee']);
-        $updateGenre = $db->real_escape_string($_POST['update_genre']);
-        $updateDuree = $db->real_escape_string($_POST['update_duree']);
-    
-        if ($db->update('dvd_data',$updateNom,$updateAnnee,$updateGenre,$updateDuree,$updateId)) {
-            echo "<p class='enregistrementText'>Ligne mise à jour avec succès.</p>";
-        } else {
-            echo "<p>Erreur de mise à jour : " . $db->error() . "</p>";
-        }
-    }    
-    ?>
-=======
       <?php
         include 'pages/research.php';
       ?>
@@ -64,7 +22,7 @@
         include 'pages/add.php';
       ?>
     </div>
->>>>>>> bfc7007cbbb7c15813e4369c3ed8ca767c7a5bfe
+
     <div class="modifierLigne">
       <?php
         // Connexion à la base de données 
@@ -143,12 +101,12 @@
         
        $query='';
 
-        if (isset($_GET['yearStart']) && isset($_GET['yearEnd']) && (int)$_GET['yearStart'] > (int)$_GET['yearEnd']) {
-          echo "<p>Erreur : L'année de début ne peut pas être supérieure à l'année de fin.</p>";
-        } else if (isset($_GET['durationStart']) && isset($_GET['durationEnd']) && (int)$_GET['durationStart'] > (int)$_GET['durationEnd']) {
-          echo "<p>Erreur : La durée min doit être inférieure à la durée max.</p>";
+        if (isset($_POST['yearStart']) && isset($_POST['yearEnd']) && (int)$_POST['yearStart'] > (int)$_POST['yearEnd']) {
+          echo "<p class='errorText'>Erreur : L'année de début ne peut pas être supérieure à l'année de fin.</p>";
+        } else if (isset($_POST['durationStart']) && isset($_POST['durationEnd']) && (int)$_POST['durationStart'] > (int)$_POST['durationEnd']) {
+          echo "<p class='errorText'>Erreur : La durée min doit être inférieure à la durée max.</p>";
         } else {
-            $query=buildQueryFromParams($_GET);
+            $query=buildQueryFromParams($_POST);
             $pass = true;
         }
 
@@ -279,10 +237,10 @@
           }
           if ($durationStart && $durationEnd && $durationFilter == 'between') {
               $query .= " AND DVD_Duree BETWEEN $durationStart AND $durationEnd";
-          } elseif ($durationStart && $durationFilter == 'before') {
-              $query .= " AND DVD_Duree <= $durationStart";
-          } elseif ($durationEnd && $durationFilter == 'after') {
-              $query .= " AND DVD_Duree >= $durationEnd";
+          } elseif ($durationEnd && $durationFilter == 'before') {
+              $query .= " AND DVD_Duree <= $durationEnd";
+          } elseif ($durationStart && $durationFilter == 'after') {
+              $query .= " AND DVD_Duree >= $durationStart";
           }
           return $query;
       }
