@@ -278,7 +278,7 @@ form button[name="duree_filter"] {
 }
 
 /*Style pour le bouton enregistrer*/
-.buttonEnregistrer {
+.buttonAddReg {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -293,20 +293,21 @@ form button[name="duree_filter"] {
     transition: background-color 0.3s ease;
 }
 
-.buttonEnregistrer:hover {
+.buttonAddReg:hover {
     background-color: #5f9747; /* Couleur plus foncée au survol */
 }
 
-.buttonEnregistrer:active {
+.buttonAddReg:active {
     background-color: #5f9747; /* Couleur encore plus foncée lors du clic */
 }
 
-.enregistrementText {
+.successText {
     color: #6AA84F;
     font-size: 2vh;
     font-weight: 600;
 }
 
+<<<<<<< HEAD
 .formRow {
     flex-wrap: wrap;
     align-items: center;
@@ -368,4 +369,10 @@ form button[name="duree_filter"] {
     z-index: 1000;
     text-align: center;
     width: 300px;  /* Tu peux ajuster la largeur */
+=======
+.errorText {
+    color: #bd050e;
+    font-size: 2vh;
+    font-weight: 600;
+>>>>>>> bfc7007cbbb7c15813e4369c3ed8ca767c7a5bfe
 }
