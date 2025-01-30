@@ -201,7 +201,13 @@ class database{
     
         return $return_value;
     }
+
+    public function real_escape_string($param){
+        return mysql_real_escape_string($this->connected, $param);
+    }
     
-    
+    public function connect_error(){
+        return mysqli_connect_error();
+    }
 }
 ?>
