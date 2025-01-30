@@ -48,6 +48,11 @@ class database{
     public function select($table, $parameters, $where, $other){
         $where = empty($where) ?"":"WHERE ". $where;
         $sql = "SELECT $parameters FROM $table $where $other";
+        $stmt = mysqli_prepare($this->connected, $sql);
+        if (!$stmt) {
+            die("Erreur de préparation : " . mysqli_error($this->connected));
+        }
+
         return mysqli_query($this->connected, $sql);
     }
 

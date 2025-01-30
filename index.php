@@ -22,6 +22,13 @@
         die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
       }
 
+      if (!empty($error = isset($_POST['error_sql']))) {
+        if ($db->deleteRecord('dvd_data', $deleteId)) {
+          echo "<p>$error.</p>";
+        }
+      }
+      
+
       // Gérer la suppression d'une ligne si un ID est envoyé
       if (isset($_POST['delete_id'])) {
         $deleteId = (int)$_POST['delete_id'];
@@ -83,6 +90,7 @@
         if($db->isConnected() === false){ 
           die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
         }
+        $pass=false;
 
         //Limitation du nombre d'entrées par page
         $entryLimit = 50;
@@ -92,94 +100,152 @@
 
         //Calcul de l'offset
         $indexOffset = ($page-1) * $entryLimit;
+        
+       $query='';
 
-        //Récupération du nombre d'entrée
-        if($resultat = $db->select('dvd_data', 'COUNT(*) as total', '', ''))
-        {
-          $totalRow = mysqli_fetch_array($resultat);
-          $totalEntries = $totalRow['total'];
-          mysqli_free_result($resultat);
+        if (isset($_GET['yearStart']) && isset($_GET['yearEnd']) && (int)$_GET['yearStart'] > (int)$_GET['yearEnd']) {
+          echo "<p>Erreur : L'année de début ne peut pas être supérieure à l'année de fin.</p>";
+        } else if (isset($_GET['durationStart']) && isset($_GET['durationEnd']) && (int)$_GET['durationStart'] > (int)$_GET['durationEnd']) {
+          echo "<p>Erreur : La durée min doit être inférieure à la durée max.</p>";
+        } else {
+            $query=buildQueryFromParams($_GET);
+            $pass = true;
         }
-        else {
-          die("Erreur lors de la récupération dud total des entrées.");
-        }
 
-        //Calcul du nombre de pages
-        $totalPages = ceil($totalEntries/$entryLimit);
 
-        //Récupération des 50 entrées en fonction de la limite et de l'offset
-        if($resultat = $db->select('dvd_data', '*', '', "LIMIT $entryLimit OFFSET $indexOffset"))
-        {
-          if (mysqli_num_rows($resultat) > 0) {
-            echo "<table>";
-            echo "<tr>";
-            echo "<th>Identificateur</th>";
-            echo "<th>Nom du Film</th>";
-            echo "<th>Année</th>";
-            echo "<th>Genre</th>";
-            echo "<th>Durée</th>";
-            echo "<th>Supprimer</th>";
-            echo "<th>Modifier</th>";
-            echo "</tr>";
-            while ($row = mysqli_fetch_array($resultat)) 
-            {
-              echo "<tr>";
-              echo "<td>" . $row['ID_DVD'] . "</td>";
-              echo "<td>" . $row['DVD_Nom'] . "</td>";
-              echo "<td>" . $row['DVD_Annee'] . "</td>";
-              echo "<td>" . $row['DVD_Genre'] . "</td>";
-              echo "<td>" . $row['DVD_Duree'] . "</td>";
-              //Gestion du bouton supprimer
-              echo "<td>";
-              echo "<form method='POST' action=''>";
-              echo "<input type='hidden' name='delete_id' value='" . $row['ID_DVD'] . "' />";
-              echo "<button class='buttonDelete' type='submit'><img src='img/bouton-supprimer.png' class='buttonDeleteImage'>Supprimer</button>";
-              echo "</form>";
-              echo "</td>";
-              //Gestion du bouton modifier
-              echo "<td>";
-              echo "<form method='POST' action=''>";
-              echo "<input type='hidden' name='edit_id' value='" . $row['ID_DVD'] . "' />";
-              echo "<input type='hidden' name='edit_nom' value='" . $row['DVD_Nom'] . "' />";
-              echo "<input type='hidden' name='edit_annee' value='" . $row['DVD_Annee'] . "' />";
-              echo "<input type='hidden' name='edit_genre' value='" . $row['DVD_Genre'] . "' />";
-              echo "<input type='hidden' name='edit_duree' value='" . $row['DVD_Duree'] . "' />";
-              echo "<button class='buttonEdit' type='submit' name='edit_mode'><img src='img/modifier-le-texte.png' class='buttonEditImage'>Modifier</button>";
-              echo "</form>";
-              echo "</td>";
-              echo "</tr>";
-            }
-            echo "</table>";
-  
-            // Afficher l'indication de la pagination
-            echo "<div class='manageTable'>";
-            $start = ($page - 1) * $entryLimit + 1;
-            $end = min($start + $entryLimit - 1, $totalEntries);
-            echo "<p>Affichage : $start à $end sur $totalEntries entrées</p>";
-  
-            // Afficher les boutons de pagination avec un formulaire
-            echo "<form method='POST' action=''>";
-            if ($page > 1) {
-              echo "<button class='buttonForm' style='margin:5px;' type='submit' name='page' value='" . ($page - 1) . "'>&laquo; Précédent</button>";
-            }
-            if ($page < $totalPages) {
-              echo "<button class='buttonForm' style='margin:5px;' type='submit' name='page' value='" . ($page + 1) . "'>Suivant &raquo;</button>";
-            }
-            echo "</form>";
-            echo "</div>";
-  
+
+        if(!empty($query) && $pass){
+          //Récupération du nombre d'entrée
+          if($resultat = $db->select('dvd_data', 'COUNT(*) as total', $query, ''))
+          {
+            $totalRow = mysqli_fetch_array($resultat);
+            $totalEntries = $totalRow['total'];
             mysqli_free_result($resultat);
-          } else {
-            echo "Pas d'enregistrement dans la base.";
           }
-        }
-        else 
-        {
-          die("Erreur lors de l'exécution de la requête : " . $db->error());
+          else {
+            die("Erreur lors de la récupération dud total des entrées.");
+          }
+  
+          //Calcul du nombre de pages
+          $totalPages = ceil($totalEntries/$entryLimit);
+  
+          //Récupération des 50 entrées en fonction de la limite et de l'offset
+          if($resultat = $db->select('dvd_data', '*', $query, "ORDER BY ID_DVD ASC LIMIT $entryLimit OFFSET $indexOffset"))
+          {
+            if (mysqli_num_rows($resultat) > 0) {
+              echo "<table>";
+              echo "<tr>";
+              echo "<th>Identificateur</th>";
+              echo "<th>Nom du Film</th>";
+              echo "<th>Année</th>";
+              echo "<th>Genre</th>";
+              echo "<th>Durée</th>";
+              echo "<th>Supprimer</th>";
+              echo "<th>Modifier</th>";
+              echo "</tr>";
+              while ($row = mysqli_fetch_array($resultat)) 
+              {
+                echo "<tr>";
+                echo "<td>" . $row['ID_DVD'] . "</td>";
+                echo "<td>" . $row['DVD_Nom'] . "</td>";
+                echo "<td>" . $row['DVD_Annee'] . "</td>";
+                echo "<td>" . $row['DVD_Genre'] . "</td>";
+                echo "<td>" . $row['DVD_Duree'] . "</td>";
+                //Gestion du bouton supprimer
+                echo "<td>";
+                echo "<form method='POST' action=''>";
+                echo "<input type='hidden' name='delete_id' value='" . $row['ID_DVD'] . "' />";
+                echo "<button class='buttonDelete' type='submit'><img src='img/bouton-supprimer.png' class='buttonDeleteImage'>Supprimer</button>";
+                echo "</form>";
+                echo "</td>";
+                //Gestion du bouton modifier
+                echo "<td>";
+                echo "<form method='POST' action=''>";
+                echo "<input type='hidden' name='edit_id' value='" . $row['ID_DVD'] . "' />";
+                echo "<input type='hidden' name='edit_nom' value='" . $row['DVD_Nom'] . "' />";
+                echo "<input type='hidden' name='edit_annee' value='" . $row['DVD_Annee'] . "' />";
+                echo "<input type='hidden' name='edit_genre' value='" . $row['DVD_Genre'] . "' />";
+                echo "<input type='hidden' name='edit_duree' value='" . $row['DVD_Duree'] . "' />";
+                echo "<button class='buttonEdit' type='submit' name='edit_mode'><img src='img/modifier-le-texte.png' class='buttonEditImage'>Modifier</button>";
+                echo "</form>";
+                echo "</td>";
+                echo "</tr>";
+              }
+              echo "</table>";
+    
+              // Afficher l'indication de la pagination
+              echo "<div class='manageTable'>";
+              $start = ($page - 1) * $entryLimit + 1;
+              $end = min($start + $entryLimit - 1, $totalEntries);
+              echo "<p>Affichage : $start à $end sur $totalEntries entrées</p>";
+    
+              // Afficher les boutons de pagination avec un formulaire
+              echo "<form method='POST' action=''>";
+              if ($page > 1) {
+                echo "<button class='buttonForm' style='margin:5px;' type='submit' name='page' value='" . ($page - 1) . "'>&laquo; Précédent</button>";
+              }
+              if ($page < $totalPages) {
+                echo "<button class='buttonForm' style='margin:5px;' type='submit' name='page' value='" . ($page + 1) . "'>Suivant &raquo;</button>";
+              }
+              echo "</form>";
+              echo "</div>";
+    
+              mysqli_free_result($resultat);
+            } else {
+              echo "Pas d'enregistrement dans la base.";
+            }
+          }
+          else 
+          {
+            die("Erreur lors de l'exécution de la requête : " . $db->error());
+          }
+    
+          // Fermeture base 
+          $db->disconnect();
+
         }
 
-        // Fermeture base 
-        $db->disconnect();
+        function buildQueryFromParams($params) {
+          // Récupération des valeurs de recherche depuis le tableau $params
+          $id = isset($params['id']) ? htmlspecialchars($params['id']) : '';
+          $name = isset($params['name']) ? htmlspecialchars($params['name']) : '';
+          $genre = isset($params['genre']) ? htmlspecialchars($params['genre']) : '';
+          $yearStart = isset($params['yearStart']) ? (int)$params['yearStart'] : null;
+          $yearEnd = isset($params['yearEnd']) ? (int)$params['yearEnd'] : null;
+          $dateFilter = isset($params['date_filter']) ? $params['date_filter'] : '';
+          $durationStart = isset($params['durationStart']) ? (int)$params['durationStart'] : null;
+          $durationEnd = isset($params['durationEnd']) ? (int)$params['durationEnd'] : null;
+          $durationFilter = isset($params['duree_filter']) ? $params['duree_filter'] : '';
+      
+          // Initialisation de la requête
+          $query = "1 ";
+      
+          // Ajouter des conditions en fonction des entrées
+          if (!empty($id)) {
+              $query .= " AND ID_DVD = $id";
+          }
+          if (!empty($name)) {
+              $query .= " AND DVD_Nom LIKE '%$name%'";
+          }
+          if (!empty($genre)) {
+              $query .= " AND DVD_Genre = '$genre'";
+          }
+          if ($yearStart && $yearEnd && $dateFilter == 'between') {
+              $query .= " AND DVD_Annee BETWEEN $yearStart AND $yearEnd";
+          } elseif ($yearEnd && $dateFilter == 'before') {
+              $query .= " AND DVD_Annee <= $yearEnd";
+          } elseif ($yearStart && $dateFilter == 'after') {
+              $query .= " AND DVD_Annee >= $yearStart";
+          }
+          if ($durationStart && $durationEnd && $durationFilter == 'between') {
+              $query .= " AND DVD_Duree BETWEEN $durationStart AND $durationEnd";
+          } elseif ($durationStart && $durationFilter == 'before') {
+              $query .= " AND DVD_Duree <= $durationStart";
+          } elseif ($durationEnd && $durationFilter == 'after') {
+              $query .= " AND DVD_Duree >= $durationEnd";
+          }
+          return $query;
+      }
       ?> 
     </div>
     </div>

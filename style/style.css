@@ -157,6 +157,7 @@ tr:hover {
     border-radius: 8px; /* Coins arrondis */
     margin-bottom: 20px; /* Espacement sous le formulaire */
     margin-top: 1%;
+    max-width: 65vw; /* Réduit la largeur du formulaire */
 }
 
 form label {
@@ -209,6 +210,10 @@ form input[type="id"] {
 }
 
 form button[name="date_filter"] {
+    margin-left: 5px;
+}
+
+form button[name="duree_filter"] {
     margin-left: 5px;
 }
 
@@ -300,4 +305,67 @@ form button[name="date_filter"] {
     color: #6AA84F;
     font-size: 2vh;
     font-weight: 600;
+}
+
+.formRow {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.formRow label {
+    flex: 1 1 auto;
+    min-width: 100px;
+}
+
+.formRow input,
+.formRow select {
+    flex: 2 1 auto;
+    min-width: 150px;
+    max-width: 300px;
+}
+
+/*Style pour le bouton enregistrer*/
+.buttonFiltrer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3294d4;
+    border-radius: 4px;
+    border-color: rgb(26, 94, 139);
+    color: white;
+    font-size: 14px;
+    min-width: 80px; 
+    padding: 4px 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonFiltrer:hover {
+    background-color: #246c9c; /* Couleur plus foncée au survol */
+}
+
+.buttonFiltrer:active {
+    background-color: #246c9c; /* Couleur encore plus foncée lors du clic */
+}
+
+.buttonEditFiltrer {
+    width: 20px; 
+    height: 20px;
+    padding: 0px 5px;
+}
+
+.errorText {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    padding: 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    z-index: 1000;
+    text-align: center;
+    width: 300px;  /* Tu peux ajuster la largeur */
 }
