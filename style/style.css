@@ -16,6 +16,7 @@ a:hover {
 }
 
 /* Styles principaux du site */
+/*Conteneur général du site*/
 .siteContainer {
     display: flex;
     flex-direction: column;
@@ -26,14 +27,14 @@ a:hover {
     height: auto; 
     padding-bottom: 2%;
 }
-
+/*Gestion de l'en-tête du site*/
 .siteHeader {
     display: flex;
     width: 100vw;
     background-color: #00334A;
     top: 0;
 }
-
+/*Gestion du pied de page du site*/
 .siteFooter {
     position: fixed; 
     bottom: 0; 
@@ -48,7 +49,7 @@ a:hover {
     font-family: Arial, sans-serif; 
     font-size: 2vh;
 }
-
+/*Gestion du conteneur du contenu du site*/
 .siteContentContainer {
     display: flex;
     flex-direction: column;
@@ -61,6 +62,13 @@ a:hover {
 .mainTitle {
     flex: 1;
     font-size: 3.5vh;
+    margin-left: 4%;
+    color: white;
+    white-space: nowrap;
+}
+/*Gestion du texte présent dans le header*/
+.headerComment {
+    font-size: 2.5vh;
     margin-left: 4%;
     color: white;
     white-space: nowrap;
@@ -101,13 +109,14 @@ a:hover {
 }
 
 /* Styles pour les tableaux */
+/*Gestion de la table d'affichage des films*/
 .mainTable {
     display: flex;
     justify-content: center;
     max-width: 90vw;
     flex-direction: column;
 }
-
+/*Gestion du menu de défilement de la table*/
 .manageTable {
     display: flex;
     flex-direction: column;
@@ -115,7 +124,7 @@ a:hover {
     justify-content: center;
     margin-bottom: 2%;
 }
-
+/*Déclaration général du style de toute les tables du site*/
 table {
     border-collapse: collapse;
     margin: 20px 0; 
@@ -145,6 +154,7 @@ tr:hover {
 }
 
 /* Styles pour le formulaire */
+/*Customisation des formulaires du site*/
 .formFilm {
     display: flex;
     flex-wrap: wrap; /* Gère les débordements horizontaux */
@@ -165,6 +175,7 @@ form label {
     margin-right: 5px;
 }
 
+/*Customisation des inputs du site*/
 form input[type="text"],
 form input[type="number"],
 form select {
@@ -187,6 +198,7 @@ form input[type="id"] {
     border-radius: 4px;
 }
 
+/*Customisation des bouttons du formulaire*/
 .buttonForm  {
     flex: 0 0 auto; 
     min-width: 80px; 
@@ -199,11 +211,11 @@ form input[type="id"] {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+/*Customisation quand le bouton est survolée*/
 .buttonForm:hover {
     background-color: #82CFD8; /* Couleur plus foncée au survol */
 }
-
+/*Customisation au clic sur le bouton*/
 .buttonForm:active {
     background-color: #82CFD8; /* Couleur encore plus foncée lors du clic */
 }
@@ -296,12 +308,14 @@ form button[name="date_filter"] {
     background-color: #5f9747; /* Couleur encore plus foncée lors du clic */
 }
 
+/*Création d'un style pour les textes de retour utilisateur qui finissent correctement*/
 .successText {
     color: #6AA84F;
     font-size: 2vh;
     font-weight: 600;
 }
 
+/*Création d'un style pour les textes de retour utilisateur qui finissent sur une erreur*/
 .errorText {
     color: #bd050e;
     font-size: 2vh;

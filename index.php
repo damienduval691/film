@@ -9,15 +9,18 @@
 <body>
   <div class="siteContainer">
     <?php
+      //Inclusion du header et de l'initialisation de la classe database
       include 'model/header.php'; 
       include 'init/init.php';
     ?>
     <div class="siteContentContainer">
       <?php
+        //Inclusion de la filtrage des films
         include 'pages/research.php';
       ?>
     <div class="ajouterLigne">
       <?php
+        //Inclusion de la page d'ajout de nouveau film
         include 'pages/add.php';
       ?>
     </div>
