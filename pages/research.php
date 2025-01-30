@@ -1,4 +1,4 @@
-<form method="POSTGE" action="index.php" class="formFilm">
+<form method="POST" action="index.php" class="formFilm">
     
     <!-- Première ligne -->
     <div class="formRow">
