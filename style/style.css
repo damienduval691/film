@@ -188,6 +188,7 @@ form input[type="id"] {
     border-radius: 4px;
 }
 
+/*Customisation des bouttons du formulaire*/
 .buttonForm  {
     flex: 0 0 auto; 
     min-width: 80px; 
@@ -200,11 +201,11 @@ form input[type="id"] {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+/*Customisation quand le bouton est survolée*/
 .buttonForm:hover {
     background-color: #82CFD8; /* Couleur plus foncée au survol */
 }
-
+/*Customisation au clic sur le bouton*/
 .buttonForm:active {
     background-color: #82CFD8; /* Couleur encore plus foncée lors du clic */
 }
@@ -301,6 +302,7 @@ form button[name="duree_filter"] {
     background-color: #5f9747; /* Couleur encore plus foncée lors du clic */
 }
 
+/*Création d'un style pour les textes de retour utilisateur qui finissent correctement*/
 .successText {
     color: #6AA84F;
     font-size: 2vh;
@@ -357,6 +359,7 @@ form button[name="duree_filter"] {
     padding: 0px 5px;
 }
 
+/*Création d'un style pour les textes de retour utilisateur qui finissent sur une erreur*/
 .errorText {
     color: #bd050e;
     font-size: 2vh;
