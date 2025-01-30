@@ -11,6 +11,9 @@
     <?php
       include 'model/header.php'; 
       include 'init/init.php';
+    ?>
+    <div class="siteContentContainer">
+    <?php
       include 'pages/research.php';
     ?>
     <?php
@@ -25,10 +28,55 @@
         if ($db->deleteRecord('dvd_data', $deleteId)) {
           echo "<p>Ligne avec ID $deleteId supprimée avec succès.</p>";
         } else {
-          echo "<p>Erreur lors de la suppression de la ligne : " . mysqli_error($db->connection) . "</p>";
+          echo "<p>Erreur lors de la suppression de la ligne : " . $db->error() . "</p>";
         }
       }
+
+      //Mise a jour de la ligne dans la base de données
+      if (isset($_POST['update_entry'])) {
+        $updateId = (int)$_POST['update_id'];
+        $updateNom = $db->real_escape_string($_POST['update_nom']);
+        $updateAnnee = $db->real_escape_string($_POST['update_annee']);
+        $updateGenre = $db->real_escape_string($_POST['update_genre']);
+        $updateDuree = $db->real_escape_string($_POST['update_duree']);
+    
+        if ($db->update('dvd_data',$updateNom,$updateAnnee,$updateGenre,$updateDuree,$updateId)) {
+            echo "<p class='enregistrementText'>Ligne mise à jour avec succès.</p>";
+        } else {
+            echo "<p>Erreur de mise à jour : " . $db->error() . "</p>";
+        }
+    }    
     ?>
+    <div class="modifierLigne">
+      <?php
+        //Ajout d'un formulaire si l'édition d'une ligne est souhaiter
+        if (isset($_POST['edit_mode'])) {
+          $editId = (int)$_POST['edit_id'];
+          $editNom = $_POST['edit_nom'];
+          $editAnnee = $_POST['edit_annee'];
+          $editGenre = $_POST['edit_genre'];
+          $editDuree = $_POST['edit_duree'];
+      
+          echo "<h3>Modifier l'entrée</h3>";
+          echo "<form method='POST' action='' class='formFilm'>";
+          echo "<input type='hidden' name='update_id' value='$editId' />";
+          echo "<label>Nom du Film:</label> <input type='text' name='update_nom' value='$editNom' /><br>";
+          echo "<label>Année:</label> <input type='text' name='update_annee' value='$editAnnee' /><br>";
+          // Sélection des genres disponibles
+          echo "<label>Genre:</label> <select name='update_genre'>";
+          if ($genres = $db->select("dvd_data", "DISTINCT DVD_Genre", '', '')) {
+            foreach ($genres as $genre) {
+                $selected = ($genre['DVD_Genre'] == $editGenre) ? "selected" : "";
+                echo '<option value="' . htmlspecialchars($genre['DVD_Genre']) . '" ' . $selected . '>' . htmlspecialchars($genre['DVD_Genre']) . '</option>';
+            }
+          }
+          echo "</select><br>";
+          echo "<label>Durée:</label> <input type='text' name='update_duree' value='$editDuree' /><br>";
+          echo "<button class='buttonEnregistrer' type='submit' name='update_entry'>Enregistrer</button>";
+          echo "</form>";
+        }    
+      ?>
+    </div>
     <div class="mainTable">
       <?php 
         // Connexion à la base de données 
@@ -70,7 +118,8 @@
             echo "<th>Année</th>";
             echo "<th>Genre</th>";
             echo "<th>Durée</th>";
-            echo "<th>Supprimer une ligne</th>";
+            echo "<th>Supprimer</th>";
+            echo "<th>Modifier</th>";
             echo "</tr>";
             while ($row = mysqli_fetch_array($resultat)) 
             {
@@ -80,10 +129,22 @@
               echo "<td>" . $row['DVD_Annee'] . "</td>";
               echo "<td>" . $row['DVD_Genre'] . "</td>";
               echo "<td>" . $row['DVD_Duree'] . "</td>";
+              //Gestion du bouton supprimer
               echo "<td>";
               echo "<form method='POST' action=''>";
               echo "<input type='hidden' name='delete_id' value='" . $row['ID_DVD'] . "' />";
               echo "<button class='buttonDelete' type='submit'><img src='img/bouton-supprimer.png' class='buttonDeleteImage'>Supprimer</button>";
+              echo "</form>";
+              echo "</td>";
+              //Gestion du bouton modifier
+              echo "<td>";
+              echo "<form method='POST' action=''>";
+              echo "<input type='hidden' name='edit_id' value='" . $row['ID_DVD'] . "' />";
+              echo "<input type='hidden' name='edit_nom' value='" . $row['DVD_Nom'] . "' />";
+              echo "<input type='hidden' name='edit_annee' value='" . $row['DVD_Annee'] . "' />";
+              echo "<input type='hidden' name='edit_genre' value='" . $row['DVD_Genre'] . "' />";
+              echo "<input type='hidden' name='edit_duree' value='" . $row['DVD_Duree'] . "' />";
+              echo "<button class='buttonEdit' type='submit' name='edit_mode'><img src='img/modifier-le-texte.png' class='buttonEditImage'>Modifier</button>";
               echo "</form>";
               echo "</td>";
               echo "</tr>";
@@ -99,10 +160,10 @@
             // Afficher les boutons de pagination avec un formulaire
             echo "<form method='POST' action=''>";
             if ($page > 1) {
-              echo "<button type='submit' name='page' value='" . ($page - 1) . "'>&laquo; Précédent</button>";
+              echo "<button class='buttonForm' style='margin:5px;' type='submit' name='page' value='" . ($page - 1) . "'>&laquo; Précédent</button>";
             }
             if ($page < $totalPages) {
-              echo "<button type='submit' name='page' value='" . ($page + 1) . "'>Suivant &raquo;</button>";
+              echo "<button class='buttonForm' style='margin:5px;' type='submit' name='page' value='" . ($page + 1) . "'>Suivant &raquo;</button>";
             }
             echo "</form>";
             echo "</div>";
@@ -114,12 +175,13 @@
         }
         else 
         {
-          die("Erreur lors de l'exécution de la requête : " . mysqli_error($db->connection));
+          die("Erreur lors de l'exécution de la requête : " . $db->error());
         }
 
         // Fermeture base 
         $db->disconnect();
       ?> 
+    </div>
     </div>
     <?php 
       include 'model/footer.php'; 

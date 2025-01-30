@@ -49,6 +49,14 @@ a:hover {
     font-size: 2vh;
 }
 
+.siteContentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 95vw;
+}
+
 /* Style du menu de navigation */
 .mainTitle {
     flex: 1;
@@ -105,6 +113,7 @@ a:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: 2%;
 }
 
 table {
@@ -231,4 +240,64 @@ form button[name="date_filter"] {
     width: 20px; 
     height: 20px;
     padding: 0px 5px;
+}
+
+/*Style pour le bouton modifier*/
+.buttonEdit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2986CC;
+    border-radius: 4px;
+    border-color: #2478b7;
+    color: white;
+    font-size: 14px;
+    min-width: 80px; 
+    padding: 4px 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonEdit:hover {
+    background-color: #2478b7; /* Couleur plus foncée au survol */
+}
+
+.buttonEdit:active {
+    background-color: #2478b7; /* Couleur encore plus foncée lors du clic */
+}
+
+.buttonEditImage {
+    width: 20px; 
+    height: 20px;
+    padding: 0px 5px;
+}
+
+/*Style pour le bouton enregistrer*/
+.buttonEnregistrer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6AA84F;
+    border-radius: 4px;
+    border-color: #5f9747;
+    color: white;
+    font-size: 14px;
+    min-width: 80px; 
+    padding: 4px 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonEnregistrer:hover {
+    background-color: #5f9747; /* Couleur plus foncée au survol */
+}
+
+.buttonEnregistrer:active {
+    background-color: #5f9747; /* Couleur encore plus foncée lors du clic */
+}
+
+.enregistrementText {
+    color: #6AA84F;
+    font-size: 2vh;
+    font-weight: 600;
 }

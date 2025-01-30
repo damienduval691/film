@@ -203,7 +203,7 @@ class database{
     }
 
     public function real_escape_string($param){
-        return mysql_real_escape_string($this->connected, $param);
+        return mysqli_real_escape_string($this->connected, $param);
     }
     
     public function connect_error(){
