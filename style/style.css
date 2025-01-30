@@ -273,7 +273,7 @@ form button[name="date_filter"] {
 }
 
 /*Style pour le bouton enregistrer*/
-.buttonEnregistrer {
+.buttonAddReg {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -288,16 +288,22 @@ form button[name="date_filter"] {
     transition: background-color 0.3s ease;
 }
 
-.buttonEnregistrer:hover {
+.buttonAddReg:hover {
     background-color: #5f9747; /* Couleur plus foncée au survol */
 }
 
-.buttonEnregistrer:active {
+.buttonAddReg:active {
     background-color: #5f9747; /* Couleur encore plus foncée lors du clic */
 }
 
-.enregistrementText {
+.successText {
     color: #6AA84F;
+    font-size: 2vh;
+    font-weight: 600;
+}
+
+.errorText {
+    color: #bd050e;
     font-size: 2vh;
     font-weight: 600;
 }

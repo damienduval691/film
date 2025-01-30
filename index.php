@@ -13,42 +13,45 @@
       include 'init/init.php';
     ?>
     <div class="siteContentContainer">
-    <?php
-      include 'pages/research.php';
-    ?>
-    <?php
-      // Connexion à la base de données 
-      if($db->isConnected() === false){ 
-        die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
-      }
-
-      // Gérer la suppression d'une ligne si un ID est envoyé
-      if (isset($_POST['delete_id'])) {
-        $deleteId = (int)$_POST['delete_id'];
-        if ($db->deleteRecord('dvd_data', $deleteId)) {
-          echo "<p>Ligne avec ID $deleteId supprimée avec succès.</p>";
-        } else {
-          echo "<p>Erreur lors de la suppression de la ligne : " . $db->error() . "</p>";
-        }
-      }
-
-      //Mise a jour de la ligne dans la base de données
-      if (isset($_POST['update_entry'])) {
-        $updateId = (int)$_POST['update_id'];
-        $updateNom = $db->real_escape_string($_POST['update_nom']);
-        $updateAnnee = $db->real_escape_string($_POST['update_annee']);
-        $updateGenre = $db->real_escape_string($_POST['update_genre']);
-        $updateDuree = $db->real_escape_string($_POST['update_duree']);
-    
-        if ($db->update('dvd_data',$updateNom,$updateAnnee,$updateGenre,$updateDuree,$updateId)) {
-            echo "<p class='enregistrementText'>Ligne mise à jour avec succès.</p>";
-        } else {
-            echo "<p>Erreur de mise à jour : " . $db->error() . "</p>";
-        }
-    }    
-    ?>
+      <?php
+        include 'pages/research.php';
+      ?>
+    <div class="ajouterLigne">
+      <?php
+        include 'pages/add.php';
+      ?>
+    </div>
     <div class="modifierLigne">
       <?php
+        // Connexion à la base de données 
+        if($db->isConnected() === false){ 
+          die("Erreur : Impossible de se connecter. " . mysqli_connect_error()); 
+        }
+
+        // Gérer la suppression d'une ligne si un ID est envoyé
+        if (isset($_POST['delete_id'])) {
+          $deleteId = (int)$_POST['delete_id'];
+          if ($db->deleteRecord('dvd_data', $deleteId)) {
+            echo "<p class='successText'>Ligne avec ID $deleteId supprimée avec succès.</p>";
+          } else {
+            echo "<p class='errorText'>Erreur lors de la suppression de la ligne : " . $db->error() . "</p>";
+          }
+        }
+
+        //Mise a jour de la ligne dans la base de données
+        if (isset($_POST['update_entry'])) {
+          $updateId = (int)$_POST['update_id'];
+          $updateNom = $db->real_escape_string($_POST['update_nom']);
+          $updateAnnee = $db->real_escape_string($_POST['update_annee']);
+          $updateGenre = $db->real_escape_string($_POST['update_genre']);
+          $updateDuree = $db->real_escape_string($_POST['update_duree']);
+      
+          if ($db->update('dvd_data',$updateNom,$updateAnnee,$updateGenre,$updateDuree,$updateId)) {
+              echo "<p class='successText'>Ligne mise à jour avec succès.</p>";
+          } else {
+              echo "<p class='errorText'>Erreur de mise à jour : " . $db->error() . "</p>";
+          }
+        }    
         //Ajout d'un formulaire si l'édition d'une ligne est souhaiter
         if (isset($_POST['edit_mode'])) {
           $editId = (int)$_POST['edit_id'];
@@ -72,7 +75,7 @@
           }
           echo "</select><br>";
           echo "<label>Durée:</label> <input type='text' name='update_duree' value='$editDuree' /><br>";
-          echo "<button class='buttonEnregistrer' type='submit' name='update_entry'>Enregistrer</button>";
+          echo "<button class='buttonAddReg' type='submit' name='update_entry'>Enregistrer</button>";
           echo "</form>";
         }    
       ?>
