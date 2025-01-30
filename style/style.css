@@ -157,7 +157,7 @@ tr:hover {
     border-radius: 8px; /* Coins arrondis */
     margin-bottom: 20px; /* Espacement sous le formulaire */
     margin-top: 1%;
-    max-width: 65vw; /* Réduit la largeur du formulaire */
+    max-width: 80vw; /* Réduit la largeur du formulaire */
 }
 
 form label {
