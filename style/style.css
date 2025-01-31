@@ -118,7 +118,7 @@ a:hover {
 table {
     border-collapse: collapse;
     margin: 1% 0; 
-    font-size: 2vh; 
+    font-size: 2.2vh; 
     text-align: left; 
     align-items: center;
     border-radius: 15px;
@@ -126,13 +126,13 @@ table {
 
 th, td {
     border: 1px solid #ddd;
-    padding: 12px; 
+    padding: 15px 8px; 
 }
 
 th {
     background-color: #00334A;
     color: white;
-    text-transform: uppercase; 
+    text-transform: uppercase;
 }
 
 tr:nth-child(even) {
@@ -177,10 +177,11 @@ form select {
     border-radius: 4px;
 }
 
-form input[type="id"] {
+form input.id {
+    all: unset; /* Réinitialise tous les styles par défaut */
     flex: 1 1 auto; /* Les champs s'adaptent à l'espace disponible */
-    min-width: 60px; /* Largeur minimale */
-    max-width: 80px; /* Largeur maximale */
+    min-width: 40px; /* Largeur minimale */
+    max-width: 50px; /* Largeur maximale */
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -228,7 +229,7 @@ form button[name="duree_filter"] {
     color: white;
     font-size: 14px;
     min-width: 80px; 
-    padding: 4px 6px;
+    padding: 2px 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -258,7 +259,7 @@ form button[name="duree_filter"] {
     color: white;
     font-size: 14px;
     min-width: 80px; 
-    padding: 4px 6px;
+    padding: 2px 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -288,7 +289,7 @@ form button[name="duree_filter"] {
     color: white;
     font-size: 14px;
     min-width: 80px; 
-    padding: 4px 6px;
+    padding: 2px 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -339,7 +340,7 @@ form button[name="duree_filter"] {
     color: white;
     font-size: 14px;
     min-width: 80px; 
-    padding: 4px 6px;
+    padding: 2px 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

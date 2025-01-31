@@ -66,7 +66,7 @@
           echo "<form method='POST' action='' class='formFilm'>";
           echo "<input type='hidden' name='update_id' value='$editId' />";
           echo "<label>Nom du Film:</label> <input type='text' name='update_nom' value='$editNom' /><br>";
-          echo "<label>Année:</label> <input type='text' name='update_annee' value='$editAnnee' /><br>";
+          echo "<label>Année:</label> <input type='number' name='update_annee' value='$editAnnee' /><br>";
           // Sélection des genres disponibles
           echo "<label>Genre:</label> <select name='update_genre'>";
           if ($genres = $db->select("dvd_data", "DISTINCT DVD_Genre", '', '')) {
@@ -76,7 +76,7 @@
             }
           }
           echo "</select><br>";
-          echo "<label>Durée:</label> <input type='text' name='update_duree' value='$editDuree' /><br>";
+          echo "<label>Durée:</label> <input type='number' name='update_duree' value='$editDuree' /><br>";
           echo "<button class='buttonAddReg' type='submit' name='update_entry'>Enregistrer</button>";
           echo "</form>";
         }    

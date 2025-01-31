@@ -2,7 +2,7 @@
 <!--Ajout d'un formulaire qui va gérer l'ajout d'un nouveau film dans la base-->
 <form method="POST" action="" class="formFilm">
     <label>Nom du Film:</label> <input type="text" name="new_nom" required /><br>
-    <label>Année:</label> <input type="text" name="new_annee" required /><br>
+    <label>Année:</label> <input type="number" name="new_annee" required /><br>
     <label>Genre:</label> 
     <select name="new_genre" required>
         <option value="">Sélectionner un genre</option>

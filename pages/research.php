@@ -3,7 +3,7 @@
     <!-- Première ligne -->
     <div class="formRow">
         <label for="id">ID :</label>
-        <input type="number" id="id" name="id" placeholder="Identifiant">
+        <input type="number" id="id" name="id" placeholder="ID" class="id">
 
         <label for="name">Nom :</label>
         <input type="text" id="name" name="name" placeholder="Nom du film">
@@ -22,12 +22,12 @@
     </div>
 
     <div  class="filterOptions">
-        <label for="yearStart">Année de début :</label>
+        <label for="yearStart">Année min :</label>
         <input type="number" id="yearStart" name="yearStart" placeholder="Entrez une date" min="1900" max="2100">
 
-        <label for="yearEnd">Année de fin :</label>
+        <label for="yearEnd">Année max :</label>
         <input type="number" id="yearEnd" name="yearEnd" placeholder="Entrez une date" min="1900" max="2100">
-
+                <br>
         <label><input type="radio" name="date_filter" id="filter_between" value="between" checked> Entre deux dates</label>
         <label><input type="radio" name="date_filter" id="filter_before" value="before"> Avant une date</label>
         <label><input type="radio" name="date_filter" id="filter_after" value="after"> Après une date</label>
@@ -35,12 +35,12 @@
     </div>
     <!-- Sélections -->
     <div class="filterOptions">
-        <label for="durationStart">Durée min (en minutes) :</label>
+        <label for="durationStart">Durée min :</label>
         <input type="text" id="durationStart" name="durationStart" placeholder="Durée en minutes">
 
-        <label for="durationEnd">Durée max (en minutes) :</label>
+        <label for="durationEnd">Durée max :</label>
         <input type="text" id="durationEnd" name="durationEnd" placeholder="Durée en minutes">
-
+                <br>
         <label><input type="radio" name="duree_filter" id="filter_between_duree" value="between" checked> Entre deux durées</label>
         <label><input type="radio" name="duree_filter" id="filter_minus" value="before"> Plus court</label>
         <label><input type="radio" name="duree_filter" id="filter_plus" value="after"> Plus long</label>
