@@ -63,6 +63,7 @@ a:hover {
     margin-left: 4%;
     color: white;
     white-space: nowrap;
+    text-align: center;
 }
 
 .navigationMenu {
@@ -135,12 +136,65 @@ th {
     text-transform: uppercase;
 }
 
+.custom-table {
+    border-collapse: collapse;
+    margin:0 0; 
+    font-size: 2.1vh; 
+    text-align: left; 
+    align-items: center;
+    width: 80vw; /* Réduit la largeur du formulaire */
+}
+
+.custom-th, .custom-td {
+    padding: 0 7px; 
+    text-align: center;
+    border-left: none; /* Supprime la bordure gauche */
+    border-right: none; /* Supprime la bordure droite */
+    border-bottom: none; /* Supprime la bordure gauche */
+    border-top: none; /* Supprime la bordure droite */
+}
+
+.custom-td-row {
+    padding: 0 7px; 
+    border-left: none; /* Supprime la bordure gauche */
+    border-right: none; /* Supprime la bordure droite */
+    border-bottom: none; /* Supprime la bordure gauche */
+    border-top: none; /* Supprime la bordure droite */
+}
+
+.custom-td-research {
+    padding: 0 0; 
+    width: 1vw; 
+    border-left: none; /* Supprime la bordure gauche */
+    border-right: none; /* Supprime la bordure droite */
+    border-bottom: none; /* Supprime la bordure gauche */
+    border-top: none; /* Supprime la bordure droite */
+}
+
+.custom-th {
+    text-align: center;
+    text-transform: uppercase;
+    border-left: none; /* Supprime la bordure gauche */
+    border-right: none; /* Supprime la bordure droite */
+    border-bottom: none; /* Supprime la bordure gauche */
+    border-top: none; /* Supprime la bordure droite */
+
+}
+
 tr:nth-child(even) {
     background-color: #B8CBD0;
 }
 
 tr:hover {
     background-color: #9CD2D5;
+}
+
+.custom-tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.custom-tr:hover {
+    background-color: #f9f9f9;
 }
 
 /* Styles pour le formulaire */
@@ -180,12 +234,25 @@ form select {
 form input.id {
     all: unset; /* Réinitialise tous les styles par défaut */
     flex: 1 1 auto; /* Les champs s'adaptent à l'espace disponible */
-    min-width: 40px; /* Largeur minimale */
+    min-width: 10px; /* Largeur minimale */
     max-width: 50px; /* Largeur maximale */
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    background-color: #ffffff;
+}
+
+form input.duration {
+    all: unset; /* Réinitialise tous les styles par défaut */
+    flex: 1 1 auto; /* Les champs s'adaptent à l'espace disponible */
+    min-width: 100px; /* Largeur minimale */
+    max-width: 100px; /* Largeur maximale */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff;
 }
 
 /*Customisation des bouttons du formulaire*/
@@ -326,7 +393,26 @@ form button[name="duree_filter"] {
 .formRow select {
     flex: 2 1 auto;
     min-width: 150px;
-    max-width: 300px;
+    max-width: 150px;
+}
+
+#genre {
+   /* flex: 1 1 auto; /* Les champs s'adaptent à l'espace disponible */
+    min-width: 90px; /* Largeur minimale */
+    max-width: 90px; /* Largeur maximale */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#text-film{
+    all: unset;
+    width: 15px; /* Largeur plus petite */
+    height: 35px; /* Hauteur ajustée */
+    font-size: 14px; /* Taille du texte réduite */
+    padding: 4px; /* Espacement interne réduit */
+    border-radius: 4px; /* Coins arrondis pour un meilleur rendu */
 }
 
 /*Style pour le bouton enregistrer*/
@@ -339,7 +425,7 @@ form button[name="duree_filter"] {
     border-color: rgb(26, 94, 139);
     color: white;
     font-size: 14px;
-    min-width: 80px; 
+    min-width: 100px; 
     padding: 2px 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;

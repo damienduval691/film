@@ -28,13 +28,40 @@
         $newGenre = $db->real_escape_string($_POST['new_genre']);
         $newDuree = $db->real_escape_string($_POST['new_duree']);
 
-        // Exécution de l'insertion
-        if ($db->insertInto("dvd_data", $newNom, $newAnnee, $newGenre, $newDuree)) {
-            //Affichage d'un message pour informé l'utilisateur du succès de sa demande
-            echo "<p class='successText'>Le film a été ajouté avec succès !</p>";
+        $query = "1 ";
+      
+        //Ajout des paramètres dans la clause
+        if (!empty($newNom)) {
+            $namewithoutspace = strtolower(str_replace(' ', '', $newNom));
+            $query .= " AND LOWER(REPLACE(DVD_Nom, ' ', '')) = '$namewithoutspace'";
+
+        }
+        if (!empty($newGenre)) {
+            $query .= " AND DVD_Genre = '$newGenre'";
+        }
+        if (!empty($newAnnee)) {
+            $query .= " AND DVD_Annee = '$newAnnee'";
+        }
+        if (!empty($newDuree)) {
+        $query .= " AND DVD_Duree = '$newDuree'";
+        }
+        $resultat = $db->select('dvd_data', 'count(*) as total', $query, '');
+
+        $totalRow = mysqli_fetch_array($resultat); 
+        
+        $totalEntries = $totalRow['total'];
+
+        if($totalEntries<1) {
+            // Exécution de l'insertion
+            if ($db->insertInto("dvd_data", $newNom, $newAnnee, $newGenre, $newDuree)) {
+                //Affichage d'un message pour informé l'utilisateur du succès de sa demande
+                echo "<p class='successText'>Le film a été ajouté avec succès !</p>";
+            } else {
+                //Affichage d'un message pour informé l'utilisateur que sa demande à entrainer une erreur
+                echo "<p class='errorText'>Erreur lors de l'ajout du film : " . $db->error() . "</p>";
+            }
         } else {
-            //Affichage d'un message pour informé l'utilisateur que sa demande à entrainer une erreur
-            echo "<p class='errorText'>Erreur lors de l'ajout du film : " . $db->error() . "</p>";
+            echo "<p class='errorText'>Un film existe déjà dans la base de données. </p>";
         }
     }
 ?>

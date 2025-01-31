@@ -99,14 +99,15 @@
         //Calcul de l'offset
         $indexOffset = ($page-1) * $entryLimit;
         
-       $query='';
+      $query='';
+      $other='';
 
         if (isset($_POST['yearStart']) && isset($_POST['yearEnd']) && (int)$_POST['yearStart'] > (int)$_POST['yearEnd']) {
           echo "<p class='errorText'>Erreur : L'année de début ne peut pas être supérieure à l'année de fin.</p>";
         } else if (isset($_POST['durationStart']) && isset($_POST['durationEnd']) && (int)$_POST['durationStart'] > (int)$_POST['durationEnd']) {
           echo "<p class='errorText'>Erreur : La durée min doit être inférieure à la durée max.</p>";
         } else {
-            $query=buildQueryFromParams($_POST);
+          [$query, $other]=buildQueryFromParams($_POST);
             $pass = true;
         }
 
@@ -128,7 +129,7 @@
           $totalPages = ceil($totalEntries/$entryLimit);
   
           //Récupération des 50 entrées en fonction de la limite et de l'offset
-          if($resultat = $db->select('dvd_data', '*', $query, "ORDER BY ID_DVD ASC LIMIT $entryLimit OFFSET $indexOffset"))
+          if($resultat = $db->select('dvd_data', '*', $query, "$other LIMIT $entryLimit OFFSET $indexOffset"))
           {
             if (mysqli_num_rows($resultat) > 0) {
               echo "<table>";
@@ -179,6 +180,20 @@
     
               // Afficher les boutons de pagination avec un formulaire
               echo "<form method='POST' action=''>";
+
+              
+              echo '<input type="hidden" name="yearStart" value="' . (isset($_POST['yearStart']) ? htmlspecialchars($_POST['yearStart']) : '') . '" />';
+              echo '<input type="hidden" name="yearEnd" value="' . (isset($_POST['yearEnd']) ? htmlspecialchars($_POST['yearEnd']) : '') . '" />';
+              echo '<input type="hidden" name="durationStart" value="' . (isset($_POST['durationStart']) ? htmlspecialchars($_POST['durationStart']) : '') . '" />';
+              echo '<input type="hidden" name="durationEnd" value="' . (isset($_POST['durationEnd']) ? htmlspecialchars($_POST['durationEnd']) : '') . '" />';
+              echo '<input type="hidden" name="date_filter" value="' . (isset($_POST['date_filter']) ? htmlspecialchars($_POST['date_filter']) : '') . '" />';
+              echo '<input type="hidden" name="duree_filter" value="' . (isset($_POST['duree_filter']) ? htmlspecialchars($_POST['duree_filter']) : '') . '" />';
+              echo '<input type="hidden" name="genre" value="' . (isset($_POST['genre']) ? htmlspecialchars($_POST['genre']) : '') . '" />';
+              echo '<input type="hidden" name="name" value="' . (isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '') . '" />';
+              echo '<input type="hidden" name="order" value="' . (isset($_POST['order']) ? htmlspecialchars($_POST['order']) : '') . '" />';
+              
+              
+
               if ($page > 1) {
                 echo "<button class='buttonForm' style='margin:5px;' type='submit' name='page' value='" . ($page - 1) . "'>&laquo; Précédent</button>";
               }
@@ -207,20 +222,21 @@
          * function buildQueryFromParams(string)
          * Fonction qui permet de créer la clause where
          * @param string $param : $_GET ou $_POST
-         * @return string $query : clause where
+         * @return array $query : clause where
          */
         function buildQueryFromParams($params) {
           // Récupération des valeurs de recherche depuis le tableau $params
-          $id = isset($params['id']) ? htmlspecialchars($params['id']) : '';
-          $name = isset($params['name']) ? htmlspecialchars($params['name']) : '';
-          $genre = isset($params['genre']) ? htmlspecialchars($params['genre']) : '';
-          $yearStart = isset($params['yearStart']) ? (int)$params['yearStart'] : null;
-          $yearEnd = isset($params['yearEnd']) ? (int)$params['yearEnd'] : null;
-          $dateFilter = isset($params['date_filter']) ? $params['date_filter'] : '';
-          $durationStart = isset($params['durationStart']) ? (int)$params['durationStart'] : null;
-          $durationEnd = isset($params['durationEnd']) ? (int)$params['durationEnd'] : null;
+          $id =             isset($params['id']) ? htmlspecialchars($params['id']) : '';
+          $name =           isset($params['name']) ? htmlspecialchars($params['name']) : '';
+          $genre =          isset($params['genre']) ? htmlspecialchars($params['genre']) : '';
+          $yearStart =      isset($params['yearStart']) ? (int)$params['yearStart'] : null;
+          $yearEnd =        isset($params['yearEnd']) ? (int)$params['yearEnd'] : null;
+          $dateFilter =     isset($params['date_filter']) ? $params['date_filter'] : '';
+          $durationStart =  isset($params['durationStart']) ? (int)$params['durationStart'] : null;
+          $durationEnd =    isset($params['durationEnd']) ? (int)$params['durationEnd'] : null;
           $durationFilter = isset($params['duree_filter']) ? $params['duree_filter'] : '';
-      
+          $order =          isset($params['order']) ? $params['order'] : '';
+          
           //Initilisation de la clause
           $query = "1 ";
       
@@ -248,10 +264,47 @@
           } elseif ($durationStart && $durationFilter == 'after') {
               $query .= " AND DVD_Duree >= $durationStart";
           }
-          return $query;
+          $other = '';
+
+          //Récupération des order by
+          switch ($order) {
+            case "1":
+              $other .= "ORDER BY ID_DVD ASC";
+              break;
+            case "2":
+              $other .= "ORDER BY ID_DVD DESC";
+              break;
+            case "3":
+              $other .= "ORDER BY DVD_Nom ASC";
+              break;
+            case "4":
+              $other .= "ORDER BY DVD_Nom DESC";
+              break;
+            case "5":
+              $other .= "ORDER BY DVD_Genre ASC";
+              break;
+            case "6":
+              $other .= "ORDER BY DVD_Genre DESC";
+              break;
+            case "7":
+              $other .= "ORDER BY DVD_Annee ASC";
+              break;
+            case "8":
+              $other .= "ORDER BY DVD_Annee DESC";
+              break;
+            case "9":
+              $other .= "ORDER BY DVD_Duree ASC";
+              break;
+            case "10":
+              $other .= "ORDER BY DVD_Duree DESC";
+              break;
+            default:
+              $other .= "ORDER BY ID_DVD ASC";
+              break;
+          }
+          return [$query, $other];
       }
       ?> 
-    </div>
     </div>
     <?php 
       include 'model/footer.php'; 
