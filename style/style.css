@@ -49,6 +49,13 @@ a:hover {
     font-size: 2vh;
 }
 
+.siteContentContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 /* Style du menu de navigation */
 .mainTitle {
     flex: 1;
@@ -110,8 +117,8 @@ a:hover {
 
 table {
     border-collapse: collapse;
-    margin: 20px 0; 
-    font-size: 18px; 
+    margin: 1% 0; 
+    font-size: 2vh; 
     text-align: left; 
     align-items: center;
     border-radius: 15px;
